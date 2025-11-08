@@ -27,7 +27,7 @@ Material:
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
-  - ALWAYS
+  - GRABPASS
   - DepthOnly
   - SHADOWCASTER
   m_LockedProperties: 
