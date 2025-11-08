@@ -696,6 +696,72 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a85100a06f572314886cabafe64a1396, type: 3}
+--- !u!1 &359621223 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4467602205122196832, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
+  m_PrefabInstance: {fileID: 7124455712220235915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!328 &359621225
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359621223}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: 2f0cb510d849d442ba36c204cb9bc19d, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 519420031}
+  m_TargetTexture: {fileID: 8400000, guid: 85a99032085ea41fcbb902db2f686956, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
+  m_Url: 
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
+--- !u!114 &359621228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359621223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8400000, guid: 85a99032085ea41fcbb902db2f686956, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,9 +2697,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5488983083574855288}
     m_Modifications:
+    - target: {fileID: 29332830734937678, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1708147373514918554, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
       propertyPath: m_Name
       value: Background
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927479232267733033, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197130511329388762, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
+      propertyPath: m_Material
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6709688605647356619, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
       propertyPath: m_SortingLayer
@@ -2727,10 +2805,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 29332830734937678, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4467602205122196832, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 359621228}
+    - targetCorrespondingSourceObject: {fileID: 4467602205122196832, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 359621225}
   m_SourcePrefab: {fileID: 100100000, guid: 0470715bdb6f1554796bf0eb73a12c07, type: 3}
 --- !u!224 &7124455712220235916 stripped
 RectTransform:
