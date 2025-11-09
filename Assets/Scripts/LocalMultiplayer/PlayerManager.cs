@@ -1,24 +1,24 @@
-using UnityEngine;
-using Unity.Cinemachine;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-    private List<PlayerInput> players = new List<PlayerInput>();
-    [SerializeField]
-    private List<Transform> startingPoints;
-    [SerializeField]
-    private List<LayerMask> playerLayers;
+    [SerializeField] private List<Transform> startingPoints;
+
+    [SerializeField] private List<LayerMask> playerLayers;
 
     private PlayerInputManager playerInputManager;
+    private readonly List<PlayerInput> players = new();
 
     private void Awake()
     {
         playerInputManager = FindAnyObjectByType<PlayerInputManager>();
-        
+
         // Configure PlayerInputManager for split-screen multiplayer
-        if (playerInputManager != null) {
+        if (playerInputManager != null)
+        {
             playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
             playerInputManager.splitScreen = true;
         }
@@ -47,7 +47,9 @@ public class PlayerManager : MonoBehaviour
             // Player 1 uses keyboard and mouse
             player.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
             Debug.Log("Player 1 assigned to Keyboard&Mouse");
-        } else if (playerIndex == 1) {
+        }
+        else if (playerIndex == 1)
+        {
             // Player 2 uses gamepad
             if (Gamepad.current != null)
             {
@@ -61,7 +63,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         //need to use the parent due to the structure of the prefab
-        Transform playerParent = player.transform.parent;
+        var playerParent = player.transform.parent;
         playerParent.position = startingPoints[playerIndex].position;
 
         //convert layer mask (bit) to an integer 
@@ -69,27 +71,22 @@ public class PlayerManager : MonoBehaviour
 
         //set the layer
         playerParent.GetComponentInChildren<CinemachineFreeLookModifier>().gameObject.layer = layerToAdd;
-        
+
         // Get the camera for this player
-        Camera playerCamera = playerParent.GetComponentInChildren<Camera>();
-        
+        var playerCamera = playerParent.GetComponentInChildren<Camera>();
+
         // Configure split-screen viewports
         if (playerIndex == 0)
-        {
             // Player 1 - Top half of screen
             playerCamera.rect = new Rect(0f, 0.5f, 1f, 0.5f);
-        }
         else if (playerIndex == 1)
-        {
             // Player 2 - Bottom half of screen
             playerCamera.rect = new Rect(0f, 0f, 1f, 0.5f);
-        }
-        
+
         //add the layer to camera culling mask
         playerCamera.cullingMask |= 1 << layerToAdd;
-        
+
         //set the action in the custom cinemachine Input Handler
         playerParent.GetComponentInChildren<InputHandler>().horizontal = player.actions.FindAction("Look");
-
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,32 +22,9 @@ namespace Menu
 
         [SerializeField] private List<string> _sceneNames;
 
-        private int _inputSceneIndex;
-
         [SerializeField] private List<string> _inputScenes;
 
-#if UNITY_EDITOR
-        private void RefreshScenes()
-        {
-            string[] searchPaths = { "Assets/Scenes/Menu", "Assets/Scenes/Game" };
-            _sceneNames = AssetDatabase.FindAssets($"t:scene", searchPaths)
-                .Select(guid => Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)))
-                .ToList();
-            
-            _inputScenes = AssetDatabase.FindAssets($"t:scene", new[] { "Assets/Scenes/Menu/Input" })
-                .Select(guid => Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)))
-                .ToList();
-            
-            _inputSceneIndex = _inputScenes.IndexOf(SceneManager.GetActiveScene().name);
-            
-            EditorUtility.SetDirty(this);
-        }
-
-        private void OnValidate()
-        {
-            RefreshScenes();
-        }
-#endif
+        private int _inputSceneIndex;
 
         private void OnEnable()
         {
@@ -89,10 +65,7 @@ namespace Menu
         public void SwitchScene(string sceneName)
         {
 #if UNITY_EDITOR
-            if (!EditorApplication.isPlaying)
-            {
-                return;
-            }
+            if (!EditorApplication.isPlaying) return;
 #endif
             StartCoroutine(C_SwitchScene(sceneName));
         }
@@ -134,7 +107,7 @@ namespace Menu
                 Debug.LogWarning("No input scenes available to switch to.");
                 return;
             }
-            
+
             _inputSceneIndex = (_inputSceneIndex + 1) % _inputScenes.Count;
             SwitchScene(_inputScenes[_inputSceneIndex]);
         }
@@ -146,9 +119,32 @@ namespace Menu
                 Debug.LogWarning("No input scenes available to switch to.");
                 return;
             }
-            
+
             _inputSceneIndex = (_inputSceneIndex - 1 + _inputScenes.Count) % _inputScenes.Count;
             SwitchScene(_inputScenes[_inputSceneIndex]);
         }
+
+#if UNITY_EDITOR
+        private void RefreshScenes()
+        {
+            string[] searchPaths = { "Assets/Scenes/Menu", "Assets/Scenes/Game" };
+            _sceneNames = AssetDatabase.FindAssets("t:scene", searchPaths)
+                .Select(guid => Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)))
+                .ToList();
+
+            _inputScenes = AssetDatabase.FindAssets("t:scene", new[] { "Assets/Scenes/Menu/Input" })
+                .Select(guid => Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)))
+                .ToList();
+
+            _inputSceneIndex = _inputScenes.IndexOf(SceneManager.GetActiveScene().name);
+
+            EditorUtility.SetDirty(this);
+        }
+
+        private void OnValidate()
+        {
+            RefreshScenes();
+        }
+#endif
     }
 }

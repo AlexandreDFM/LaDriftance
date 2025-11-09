@@ -4,10 +4,9 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour, AxisState.IInputAxisProvider
 {
-    [HideInInspector]
-    public InputAction horizontal;
-    [HideInInspector]
-    public InputAction vertical;
+    [HideInInspector] public InputAction horizontal;
+
+    [HideInInspector] public InputAction vertical;
 
     public float GetAxisValue(int axis)
     {
@@ -21,7 +20,3 @@ public class InputHandler : MonoBehaviour, AxisState.IInputAxisProvider
         return 0;
     }
 }
-
-
-
-

@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace Types
 {
-    [System.Serializable]
+    [Serializable]
     public class Sound
     {
         public string name;

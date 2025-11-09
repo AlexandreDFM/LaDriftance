@@ -1,3 +1,4 @@
+using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,34 +18,35 @@ namespace UI
         {
             // Initialiser les valeurs actuelles (optionnel)
             float volume;
-            if (!Manager.AudioManager.Instance) {
-                return;
-            }
+            if (!AudioManager.Instance) return;
 
-            if (Manager.AudioManager.Instance.audioMixer.GetFloat("MasterVolume", out volume)) {
+            if (AudioManager.Instance.audioMixer.GetFloat("MasterVolume", out volume))
+            {
                 masterSlider.value = volume;
-                masterText.text = Mathf.RoundToInt(volume + 80).ToString() + " %";
+                masterText.text = Mathf.RoundToInt(volume + 100) + " %";
             }
 
-            if (Manager.AudioManager.Instance.audioMixer.GetFloat("MusicVolume", out volume)) {
+            if (AudioManager.Instance.audioMixer.GetFloat("MusicVolume", out volume))
+            {
                 musicSlider.value = volume;
-                musicText.text = Mathf.RoundToInt(volume + 80).ToString() + " %";
+                musicText.text = Mathf.RoundToInt(volume + 100) + " %";
             }
 
-            if (Manager.AudioManager.Instance.audioMixer.GetFloat("SFXVolume", out volume)) {
+            if (AudioManager.Instance.audioMixer.GetFloat("SoundFXVolume", out volume))
+            {
                 sfxSlider.value = volume;
-                sfxText.text = Mathf.RoundToInt(volume + 80).ToString() + " %";
+                sfxText.text = Mathf.RoundToInt(volume + 100) + " %";
             }
 
             // Ajouter les listeners
-            masterSlider.onValueChanged.AddListener(Manager.AudioManager.Instance.SetMasterVolume);
-            masterSlider.onValueChanged.AddListener(value => masterText.text = Mathf.RoundToInt(value + 80).ToString() + " %");
-            
-            musicSlider.onValueChanged.AddListener(Manager.AudioManager.Instance.SetMusicVolume);
-            musicSlider.onValueChanged.AddListener(value => musicText.text = Mathf.RoundToInt(value + 80).ToString() + " %");
-            
-            sfxSlider.onValueChanged.AddListener(Manager.AudioManager.Instance.SetSoundFXVolume);
-            sfxSlider.onValueChanged.AddListener(value => sfxText.text = Mathf.RoundToInt(value + 80).ToString() + " %");
+            masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
+            masterSlider.onValueChanged.AddListener(value => masterText.text = Mathf.RoundToInt(value + 100) + " %");
+
+            musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
+            musicSlider.onValueChanged.AddListener(value => musicText.text = Mathf.RoundToInt(value + 100) + " %");
+
+            sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSoundFXVolume);
+            sfxSlider.onValueChanged.AddListener(value => sfxText.text = Mathf.RoundToInt(value + 100) + " %");
         }
     }
 }

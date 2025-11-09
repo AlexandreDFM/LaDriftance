@@ -1,3 +1,4 @@
+using System;
 using Types;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -7,7 +8,6 @@ namespace Manager
 {
     public class AudioManager : MonoBehaviour
     {
-        [SerializeField]
         public static AudioManager Instance;
 
         public AudioMixer audioMixer;
@@ -22,10 +22,13 @@ namespace Manager
 
         private void Awake()
         {
-            if (Instance == null) {
+            if (Instance == null)
+            {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-            } else {
+            }
+            else
+            {
                 Destroy(gameObject);
             }
         }
@@ -39,13 +42,12 @@ namespace Manager
 
             string sceneName = SceneManager.GetActiveScene().name;
 
-            if (musicSource != null && System.Array.Exists(musicSounds, sound => sound.name == sceneName)) {
+            if (musicSource != null && Array.Exists(musicSounds, sound => sound.name == sceneName))
                 PlayMusicFromHandler(sceneName, musicSource);
-            } else if (musicSource != null && System.Array.Exists(musicSounds, sound => sound.name == "MainTheme")) {
+            else if (musicSource != null && Array.Exists(musicSounds, sound => sound.name == "MainTheme"))
                 PlayMusicFromHandler("MainTheme", musicSource);
-            } else {
+            else
                 Debug.LogWarning("No music source found!");
-            }
         }
 
         private void OnEnable()
@@ -58,23 +60,23 @@ namespace Manager
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
-        private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             string sceneName = scene.name;
 
-            if (musicSource != null && System.Array.Exists(musicSounds, sound => sound.name == sceneName)) {
+            if (musicSource != null && Array.Exists(musicSounds, sound => sound.name == sceneName))
                 PlayMusicFromHandler(sceneName, musicSource);
-            } else if (musicSource != null && System.Array.Exists(musicSounds, sound => sound.name == "MainTheme")) {
+            else if (musicSource != null && Array.Exists(musicSounds, sound => sound.name == "MainTheme"))
                 PlayMusicFromHandler("MainTheme", musicSource);
-            } else {
+            else
                 Debug.LogWarning("No matching music found for scene: " + sceneName);
-            }
         }
 
         public void PlaySoundFXFromHandler(string sfxName, AudioSource audioSource)
         {
-            Sound sound = System.Array.Find(sfxSounds, sound => sound.name == sfxName);
-            if (sound == null) {
+            var sound = Array.Find(sfxSounds, sound => sound.name == sfxName);
+            if (sound == null)
+            {
                 Debug.LogWarning("Sound: " + sfxName + " not found!");
                 return;
             }
@@ -85,8 +87,9 @@ namespace Manager
 
         public void PlayMusicFromHandler(string musicName, AudioSource audioSource)
         {
-            Sound sound = System.Array.Find(musicSounds, sound => sound.name == musicName);
-            if (sound == null) {
+            var sound = Array.Find(musicSounds, sound => sound.name == musicName);
+            if (sound == null)
+            {
                 Debug.LogWarning("Sound: " + musicName + " not found!");
                 return;
             }

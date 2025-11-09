@@ -1,5 +1,5 @@
-using UnityEngine;
 using Manager;
+using UnityEngine;
 
 public class RespawnController : MonoBehaviour
 {
@@ -9,18 +9,18 @@ public class RespawnController : MonoBehaviour
     public WheelCollider backLeft;
 
     public int ticksBeforeRespawn = 100; // nombre de FixedUpdate avant respawn
-    public float respawnHeight = 2f;     // hauteur du TP
+    public float respawnHeight = 2f; // hauteur du TP
     public float uprightResetSpeed = 5f; // vitesse de correction rotation
 
-    private int notGroundedTicks = 0;
+    private int notGroundedTicks;
     private Rigidbody rb;
 
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         int groundedWheels = 0;
 
@@ -46,20 +46,18 @@ public class RespawnController : MonoBehaviour
         }
     }
 
-    void RespawnCar()
+    private void RespawnCar()
     {
         // Jouer le son de reset "grosseMerde"
         if (AudioManager.Instance != null)
-        {
             AudioManager.Instance.PlaySoundFXFromHandler("grosseMerde", AudioManager.Instance.sfxSource);
-        }
-        
+
         // freeze physique un petit moment pour éviter l'éjection
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
         // remonter la voiture
-        Vector3 pos = transform.position;
+        var pos = transform.position;
         pos.y += respawnHeight;
         transform.position = pos;
 
