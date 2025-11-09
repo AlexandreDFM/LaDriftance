@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Manager;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CarDriftController : MonoBehaviour
@@ -36,6 +37,14 @@ public class CarDriftController : MonoBehaviour
     [Header("Input (optional - Input System)")]
     public InputActionReference moveAction;
     public InputActionReference brakeAction;
+    public InputActionReference hornAction;
+
+    [Header("Audio")]
+    public AudioSource engineAudioSource;
+    [Tooltip("Vitesse pour passer de longnion à nion")]
+    public float speedThresholdNion = 30f;
+    [Tooltip("Vitesse pour passer de nion à ptinion")]
+    public float speedThresholdPtinion = 60f;
 
     [Header("Visuals")]
     public float wheelRotationSmooth = 30f;
@@ -47,6 +56,11 @@ public class CarDriftController : MonoBehaviour
     // debug logging timer to avoid spamming every FixedUpdate
     private float debugLogInterval = 0.5f;
     private float debugLogTimer = 0f;
+    
+    // Audio tracking
+    private string currentEngineSound = "";
+    private bool isHornPlaying = false;
+    
     [Header("Stopping / Decay")]
     [Tooltip("If true the car will stop instantly when no input; if false the car will decay to a stop over time.")]
     public bool useInstantStop = false;
@@ -60,18 +74,29 @@ public class CarDriftController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         CacheRearFriction();
         ApplyRearFriction();
+        
+        // Setup audio source for engine sounds
+        if (engineAudioSource == null)
+        {
+            engineAudioSource = gameObject.AddComponent<AudioSource>();
+            engineAudioSource.loop = true;
+            engineAudioSource.playOnAwake = false;
+            engineAudioSource.spatialBlend = 1f; // 3D sound
+        }
     }
 
     private void OnEnable()
     {
         if (moveAction != null && moveAction.action != null) moveAction.action.Enable();
         if (brakeAction != null && brakeAction.action != null) brakeAction.action.Enable();
+        if (hornAction != null && hornAction.action != null) hornAction.action.Enable();
     }
 
     private void OnDisable()
     {
         if (moveAction != null && moveAction.action != null) moveAction.action.Disable();
         if (brakeAction != null && brakeAction.action != null) brakeAction.action.Disable();
+        if (hornAction != null && hornAction.action != null) hornAction.action.Disable();
     }
 
     private void CacheRearFriction()
@@ -108,6 +133,12 @@ public class CarDriftController : MonoBehaviour
             backRight.sidewaysFriction = s;
             backRight.forwardFriction = f;
         }
+    }
+
+    private void Update()
+    {
+        // --- Horn Input ---
+        HandleHornInput();
     }
 
     private void FixedUpdate()
@@ -196,6 +227,9 @@ public class CarDriftController : MonoBehaviour
         UpdateWheel(backLeft, backLeftTransform);
         UpdateWheel(backRight, backRightTransform);
 
+        // --- Engine Sound Management ---
+        UpdateEngineSound(currentSpeed);
+
         // --- Speed cap ---
         if (currentSpeed > maxSpeed)
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
@@ -222,6 +256,70 @@ public class CarDriftController : MonoBehaviour
         col.GetWorldPose(out Vector3 pos, out Quaternion rot);
         trans.position = pos;
         trans.rotation = Quaternion.RotateTowards(trans.rotation, rot, wheelRotationSmooth * Time.fixedDeltaTime);
+    }
+
+    private void UpdateEngineSound(float currentSpeed)
+    {
+        if (AudioManager.Instance == null || engineAudioSource == null)
+            return;
+
+        string targetSound = "";
+
+        // Déterminer quel son jouer en fonction de la vitesse
+        if (currentSpeed < speedThresholdNion)
+        {
+            targetSound = "longnion"; // Vitesse lente
+        }
+        else if (currentSpeed < speedThresholdPtinion)
+        {
+            targetSound = "nion"; // Vitesse moyenne
+        }
+        else
+        {
+            targetSound = "ptinion"; // Vitesse rapide
+        }
+
+        // Ne changer le son que si c'est différent du son actuel
+        if (currentEngineSound != targetSound)
+        {
+            currentEngineSound = targetSound;
+            AudioManager.Instance.PlaySoundFXFromHandler(targetSound, engineAudioSource);
+        }
+    }
+
+    private void HandleHornInput()
+    {
+        if (AudioManager.Instance == null || engineAudioSource == null)
+            return;
+
+        bool hornPressed = false;
+
+        // Vérifier si le klaxon est pressé
+        if (hornAction != null && hornAction.action != null)
+        {
+            hornPressed = hornAction.action.IsPressed();
+        }
+
+        // Jouer ou arrêter le son du klaxon
+        if (hornPressed && !isHornPlaying)
+        {
+            // Créer un AudioSource temporaire pour le klaxon pour ne pas interrompre le son du moteur
+            GameObject hornObject = new GameObject("HornSound");
+            hornObject.transform.SetParent(transform);
+            hornObject.transform.localPosition = Vector3.zero;
+            AudioSource hornSource = hornObject.AddComponent<AudioSource>();
+            hornSource.spatialBlend = 1f; // 3D sound
+            
+            AudioManager.Instance.PlaySoundFXFromHandler("uiuiui", hornSource);
+            isHornPlaying = true;
+            
+            // Détruire l'objet après la durée du son (ajuster selon la longueur du son)
+            Destroy(hornObject, 2f);
+        }
+        else if (!hornPressed && isHornPlaying)
+        {
+            isHornPlaying = false;
+        }
     }
 
     private void OnValidate()

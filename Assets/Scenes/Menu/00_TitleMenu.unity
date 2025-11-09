@@ -2723,6 +2723,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 731d09eaf89134b78a501ee935d98c26, type: 3}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[0].name
+      value: longnion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d21469b0ed81465fbc3a0823a0e92d9, type: 3}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[1].name
+      value: nion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c27718f433b084387b94b8d34635993f, type: 3}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[2].name
+      value: ptinion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: fe2f0aa96ddd5413ab5b2a48e4b61693, type: 3}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[3].name
+      value: uiuiui
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 20dfe4664c9b64dc599f4dbe9dbab17b, type: 3}
+    - target: {fileID: 8814070840788100760, guid: f004fe59314cc4285adfaa60f111aa3a, type: 3}
+      propertyPath: sfxSounds.Array.data[4].name
+      value: grosseMerde
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

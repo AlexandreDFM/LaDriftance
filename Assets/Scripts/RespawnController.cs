@@ -1,4 +1,5 @@
 using UnityEngine;
+using Manager;
 
 public class RespawnController : MonoBehaviour
 {
@@ -47,7 +48,13 @@ public class RespawnController : MonoBehaviour
 
     void RespawnCar()
     {
-        // freeze physique un petit moment pour éviter l’éjection
+        // Jouer le son de reset "grosseMerde"
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySoundFXFromHandler("grosseMerde", AudioManager.Instance.sfxSource);
+        }
+        
+        // freeze physique un petit moment pour éviter l'éjection
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 

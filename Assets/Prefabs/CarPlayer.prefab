@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 3256404706606271861}
     - target: {fileID: 1174357115774214, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
       propertyPath: m_Name
-      value: SM_Veh_Ute_Preset_04 Variant
+      value: CarPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 1446649082050624, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
       propertyPath: m_Name
@@ -79,6 +79,18 @@ PrefabInstance:
     - target: {fileID: 1836221569116954, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
       propertyPath: m_Name
       value: FrontLeftMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796221234767394, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796221234767394, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796221234767394, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4796221234767394, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -147,6 +159,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1174357115774214, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5960400645228927168}
+    - targetCorrespondingSourceObject: {fileID: 1174357115774214, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2056813680452213885}
   m_SourcePrefab: {fileID: 100100000, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
 --- !u!146 &1012900100321318980 stripped
 WheelCollider:
@@ -187,6 +202,41 @@ MonoBehaviour:
   ticksBeforeRespawn: 100
   respawnHeight: 2
   uprightResetSpeed: 5
+--- !u!114 &2056813680452213885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3258989379126904063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: c32373d5f13444a78abe323055ec76ef, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 3492113731289585296}
+--- !u!20 &3492113731289585296 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2109962192473257833, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
+  m_PrefabInstance: {fileID: 3260163579455267321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!146 &5775878353956200161 stripped
 WheelCollider:
   m_CorrespondingSourceObject: {fileID: 9013505238710468376, guid: 2e37f11a7bf651141ab1f1732888adea, type: 3}
