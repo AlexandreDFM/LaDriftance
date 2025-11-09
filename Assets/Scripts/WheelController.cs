@@ -54,7 +54,10 @@ public class CarDriftController : MonoBehaviour
     [Tooltip("Vitesse pour passer de nion à ptinion")]
     public float speedThresholdPtinion = 60f;
 
-    [Header("Visuals")] public float wheelRotationSmooth = 30f;
+    [Header("Visuals")] public float wheelRotationSmooth = 10f;
+
+    [Tooltip("Local Euler offset to align the wheel mesh with the WheelCollider. Use Inspector to tweak (example: X=0, Y=0, Z=0).")]
+    public Vector3 wheelModelRotationOffset = Vector3.zero;
 
     [Header("Stopping / Decay")]
     [Tooltip("If true the car will stop instantly when no input; if false the car will decay to a stop over time.")]
@@ -82,7 +85,6 @@ public class CarDriftController : MonoBehaviour
 
     private void Awake()
     {
-        HandleHornInput();
         rb = GetComponent<Rigidbody>();
         CacheRearFriction();
         ApplyRearFriction();
@@ -95,6 +97,12 @@ public class CarDriftController : MonoBehaviour
             engineAudioSource.playOnAwake = false;
             engineAudioSource.spatialBlend = 1f; // 3D sound
         }
+    }
+
+    private void Update()
+    {
+        // Handle horn input in Update to properly detect input changes
+        HandleHornInput();
     }
 
     private void FixedUpdate()
@@ -299,8 +307,16 @@ public class CarDriftController : MonoBehaviour
         if (!col || !trans) return;
 
         col.GetWorldPose(out var pos, out var rot);
+
+        // Position directly from collider
         trans.position = pos;
-        trans.rotation = Quaternion.RotateTowards(trans.rotation, rot, wheelRotationSmooth * Time.fixedDeltaTime);
+
+        // Apply model-specific rotation offset and smooth the rotation to avoid snapping.
+        // The wheelModelRotationOffset lets you correct typical model axis misalignments (e.g. X=90).
+        Quaternion targetRot = rot * Quaternion.Euler(wheelModelRotationOffset);
+
+        // Use Slerp for smooth interpolation. Higher wheelRotationSmooth = faster tracking.
+        trans.rotation = Quaternion.Slerp(trans.rotation, targetRot, wheelRotationSmooth * Time.fixedDeltaTime);
     }
 
     private void HandleHornInput()
