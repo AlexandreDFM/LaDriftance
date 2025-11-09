@@ -7,8 +7,6 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private List<Transform> startingPoints;
 
-    [SerializeField] private List<LayerMask> playerLayers;
-
     private PlayerInputManager playerInputManager;
     private readonly List<PlayerInput> players = new();
 
@@ -51,42 +49,21 @@ public class PlayerManager : MonoBehaviour
         else if (playerIndex == 1)
         {
             // Player 2 uses gamepad
-            if (Gamepad.current != null)
-            {
+            if (Gamepad.current != null) {
                 player.SwitchCurrentControlScheme("Gamepad", Gamepad.current);
                 Debug.Log("Player 2 assigned to Gamepad");
-            }
-            else
-            {
+            } else {
                 Debug.LogWarning("No gamepad detected for Player 2!");
             }
         }
 
         //need to use the parent due to the structure of the prefab
-        var playerParent = player.transform.parent;
-        playerParent.position = startingPoints[playerIndex].position;
-
-        //convert layer mask (bit) to an integer 
-        int layerToAdd = (int)Mathf.Log(playerLayers[playerIndex].value, 2);
-
-        //set the layer
-        playerParent.GetComponentInChildren<CinemachineFreeLookModifier>().gameObject.layer = layerToAdd;
-
-        // Get the camera for this player
-        var playerCamera = playerParent.GetComponentInChildren<Camera>();
-
-        // Configure split-screen viewports
-        if (playerIndex == 0)
-            // Player 1 - Top half of screen
-            playerCamera.rect = new Rect(0f, 0.5f, 1f, 0.5f);
-        else if (playerIndex == 1)
-            // Player 2 - Bottom half of screen
-            playerCamera.rect = new Rect(0f, 0f, 1f, 0.5f);
-
-        //add the layer to camera culling mask
-        playerCamera.cullingMask |= 1 << layerToAdd;
-
-        //set the action in the custom cinemachine Input Handler
-        playerParent.GetComponentInChildren<InputHandler>().horizontal = player.actions.FindAction("Look");
+        var playerParent = startingPoints[playerIndex].transform.parent;
+        
+        // Position the player at the designated starting point
+        player.transform.SetPositionAndRotation(
+            startingPoints[playerIndex].position,
+            startingPoints[playerIndex].rotation
+        );
     }
 }
